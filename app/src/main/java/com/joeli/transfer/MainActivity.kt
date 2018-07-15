@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import com.joeli.transfer.databinding.ActivityMainBinding
 import com.joeli.transfer.model.MainViewModel
+import com.joeli.transfer.presenter.MainPresenterImpl
 import com.joeli.transfer.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainView {
     private val viewModel = MainViewModel()
+    private val presenter = MainPresenterImpl(this, this, viewModel)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,14 +36,10 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onSubmit() {
-        viewModel.isSubmitted.postValue(true)
-        viewModel.isLoading.postValue(true)
-        viewModel.isSuccess.postValue(true)
-        viewModel.description.postValue(getString(R.string.result_success))
+        presenter.doTransfer()
     }
 
     override fun getAmount(): Int {
-        Log.d("test", "getAmount")
         return amountField.text.toString().toInt()
     }
 }
