@@ -3,10 +3,10 @@ package com.joeli.transfer
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.joeli.transfer.databinding.ActivityMainBinding
 import com.joeli.transfer.model.MainViewModel
 import com.joeli.transfer.presenter.MainPresenterImpl
+import com.joeli.transfer.utils.isValidAmount
 import com.joeli.transfer.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onAmountChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        submitButton.isEnabled = !s.toString().isEmpty()
+        submitButton.isEnabled = s.toString().isValidAmount()
     }
 
     override fun onReset() {
