@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
     <data>
+
         <import type="android.view.View" />
+
+        <variable
+            name="view"
+            type="com.joeli.transfer.view.MainView" />
 
         <variable
             name="model"
@@ -21,13 +25,18 @@
         <EditText
             android:id="@+id/amountField"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:enabled="@{!model.isSubmitted}"
+            android:onTextChanged="@{view.onAmountChanged}" />
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/submit"/>
+            android:enabled="false"
+            android:onClick="@{(v) -> view.onSubmit()}"
+            android:text="@string/submit"
+            android:visibility="@{model.isSubmitted ? View.GONE : View.VISIBLE}" />
 
         <LinearLayout
             android:id="@+id/resultView"
@@ -35,16 +44,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="@{model.isSubmitted ? View.VISIBLE : View.GONE}">
-        <TextView
-            android:id="@+id/descriptionLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reset_desc"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{model.isLoading ? View.VISIBLE : View.GONE}" />
+
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.description}" />
+
+            <Button
+                android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(v) -> view.onReset()}"
+                android:text="@string/reset_desc"
+                android:visibility="@{model.isLoading ? View.GONE : View.VISIBLE}" />
         </LinearLayout>
     </LinearLayout>
 </layout>

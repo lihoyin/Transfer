@@ -3,4 +3,5 @@
     <string name="submit">Submit</string>
     <string name="transfer_amount">Transfer amount</string>
     <string name="reset_desc">Make another Transfer</string>
+    <string name="result_success">Transfer success</string>
 </resources>
