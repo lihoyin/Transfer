@@ -8,4 +8,11 @@ class MainViewModel : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val isSuccess = MutableLiveData<Boolean>()
     val description = MutableLiveData<String>()
+
+    fun reset() {
+        isSubmitted.postValue(false)
+        description.postValue("")
+        isLoading.postValue(false)
+        isSuccess.postValue(false)
+    }
 }

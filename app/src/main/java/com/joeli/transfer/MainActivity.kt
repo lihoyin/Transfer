@@ -7,6 +7,7 @@ import com.joeli.transfer.databinding.ActivityMainBinding
 import com.joeli.transfer.model.MainViewModel
 import com.joeli.transfer.presenter.MainPresenterImpl
 import com.joeli.transfer.utils.isValidAmount
+import com.joeli.transfer.utils.showKeyboard
 import com.joeli.transfer.view.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,10 +17,9 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.setLifecycleOwner(this)
+
         binding.model = viewModel
         binding.view = this
     }
@@ -29,10 +29,9 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onReset() {
-        viewModel.isSubmitted.postValue(false)
-        viewModel.description.postValue("")
-        viewModel.isLoading.postValue(false)
-        viewModel.isSuccess.postValue(false)
+        viewModel.reset()
+        amountField.setText("")
+        amountField.showKeyboard()
     }
 
     override fun onSubmit() {
@@ -40,6 +39,6 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun getAmount(): Int {
-        return amountField.text.toString().toInt()
+        return amountField.text.toString().toIntOrNull() ?: 0
     }
 }
